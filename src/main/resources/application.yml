@@ -1,0 +1,10 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: transito
+
+  ai:
+    openai:
+      api-key: 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
