@@ -143,7 +143,7 @@ public class AccidentEmbeddingService {
         List<AccidentRecord> similares = this.buscarSimilares(direccion);
 
         if (similares.isEmpty()) {
-            return "No se encontraron registros de accidentes cercanos a esa zona. ¡Buen viaje!";
+            return "No se encontraron registros de accidentes cercanos a esa zona.";
         }
 
         String datasetResumen = similares.stream()
@@ -153,16 +153,15 @@ public class AccidentEmbeddingService {
 
         String prompt = """
             Eres un asistente experto en seguridad vial en Bogotá.
-            Analiza las zonas con más accidentes reportados y da recomendaciones útiles.
+            Analiza las zonas con más accidentes reportados historicamente de acuerdo a las 10 direcciones mas similares
+            y da recomendaciones útiles.
             
             Las zonas donde han ocurrido más accidentes similares a "%s" son:
             %s
             
             Con base en esto:
-            1. Menciona qué zonas o intersecciones debe evitar el conductor.
-            2. Sugiere rutas o vías alternativas más seguras para desplazarse.
-            3. Evita consejos genéricos; sé concreto con los nombres de las vías.
-            4. Redacta el mensaje como si fuera una alerta de tráfico real.
+            Menciona qué zonas o intersecciones debe evitar el conductor, Sugiere rutas o vías alternativas más seguras para desplazarse.
+            Da consejos para desplazarse por bogota teniendo encuenta la dirección dada y tu respuesta debe ser lo mas humana posible
             """.formatted(direccion, datasetResumen);
 
         var userMessage = new UserMessage(prompt);
