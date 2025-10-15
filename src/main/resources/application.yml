@@ -4,6 +4,23 @@ server:
 spring:
   application:
     name: transito
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  h2:
+    console:
+      enabled: true       # Habilita la consola web
+      path: /h2-console   # Ruta para acceder a la consola
+  jpa:
+    hibernate:
+      ddl-auto: update    # Crea o actualiza las tablas automáticamente
+    show-sql: true        # Muestra las consultas SQL en consola
+    properties:
+      hibernate:
+        format_sql: true  # Formatea las consultas para mejor lectura
+
 
   ai:
     openai:
