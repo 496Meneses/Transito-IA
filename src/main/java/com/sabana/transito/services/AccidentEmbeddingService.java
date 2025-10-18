@@ -103,9 +103,9 @@ public class AccidentEmbeddingService {
 
     private String construirDescripcionParaEntidadAccidente(Accidente accidente) {
         String direccion = accidente.getDireccion() != null ? accidente.getDireccion().trim() : "";
-        String gravedad = "desconocida"; // No hay columna de gravedad en la entidad
+        String gravedad = "desconocida";
         String clase = accidente.getTipo() != null ? accidente.getTipo().trim() : "desconocido";
-        String localidad = "desconocida"; // No hay columna de localidad en la entidad
+        String localidad = "desconocida";
         return String.format("%s con %s en %s, %s", clase, gravedad, localidad, direccion);
     }
 
@@ -144,9 +144,9 @@ public class AccidentEmbeddingService {
             float[] embedding = resultados.get(i).getOutput();
 
             registros.add(new AccidentRecord(
-                    columnas[5],   // FECHA
-                    columnas[7],   // DIRECCIÓN
-                    columnas[9],   // TIPO
+                    columnas[5],
+                    columnas[7],
+                    columnas[9],
                     embedding
             ));
         }
@@ -193,8 +193,6 @@ public class AccidentEmbeddingService {
         return dot / (Math.sqrt(normA) * Math.sqrt(normB));
     }
 
-
-
     public String generarAlerta(String direccion) {
         List<AccidentRecord> similares = this.buscarSimilares(direccion);
 
@@ -209,15 +207,17 @@ public class AccidentEmbeddingService {
 
         String prompt = """
             Eres un asistente experto en seguridad vial en Bogotá.
-            Analiza las zonas con más accidentes reportados historicamente de acuerdo a las 10 direcciones mas similares
-            y da recomendaciones útiles.
-            
-            Las zonas donde han ocurrido más accidentes similares a "%s" son:
-            %s
-            
-            Con base en esto:
-            Menciona qué zonas o intersecciones debe evitar el conductor, Sugiere rutas o vías alternativas más seguras para desplazarse.
-            Da consejos para desplazarse por bogota teniendo encuenta la dirección dada y tu respuesta debe ser lo mas humana posible
+            Tu tarea es analizar las zonas con mayor historial de accidentes a partir de las 10 direcciones más similares a la dirección dada: "%s".
+            Los datos indican que las zonas con más accidentes relacionados son: %s.
+            Con base en esta información:
+            Indica qué zonas, vías o intersecciones debería evitar el conductor.
+            Sugiere rutas o alternativas más seguras para llegar al destino.
+            Da consejos breves y útiles para conducir con precaución en Bogotá, considerando el contexto vial de la ciudad.
+            Requisitos de estilo:
+            La respuesta debe ser muy resumida (máx. 3-4 oraciones).
+            Usa un tono natural, empático y humano, como si hablaras directamente con un conductor.
+            Evita tecnicismos innecesarios.
+            Si no hay datos suficientes, responde con una recomendación general prudente.
             """.formatted(direccion, datasetResumen);
 
         var userMessage = new UserMessage(prompt);
