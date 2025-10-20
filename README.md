@@ -236,5 +236,3 @@ Fortalecer la infraestructura tecnológica del Ministerio de Transporte de Colom
 
 Proyecto académico de la **Maestría en Arquitectura de Software – Tendencias Emergentes**.  
 Universidad Cooperativa de Colombia – 2025.
-
-```
